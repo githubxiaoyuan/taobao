@@ -9,8 +9,7 @@
   tbSwiperFn();
   // 天猫轮播图
   tmSwiperFn();
-  // 触发网站导航
-  displaySideNav();
+
   // 搜索tab栏切换
   searchTabsSwitch();
   // 触发侧边导航栏二级菜单
@@ -465,28 +464,7 @@
       }, 10);
   }
 
-  // 触发网站导航
-  function displaySideNav() {
-      var siteNavTrigger = document.getElementById('siteNavTrigger');
-      var sideNavModule = document.getElementById('sideNavModule');
-      siteNavTrigger.onmouseover = function() {
-          sideNavModule.style.display = 'block';
-          siteNavTrigger.style.backgroundColor = '#fff';
-      };
-      sideNavModule.onmouseover = function() {
-          sideNavModule.style.display = 'block';
-          siteNavTrigger.style.backgroundColor = '#fff';
 
-      };
-      siteNavTrigger.onmouseout = function() {
-          sideNavModule.style.display = 'none';
-          siteNavTrigger.style.backgroundColor = 'transparent';
-      };
-      sideNavModule.onmouseout = function() {
-          sideNavModule.style.display = 'none';
-          siteNavTrigger.style.backgroundColor = 'transparent';
-      };
-  }
 
   // 搜索tab栏切换
   function searchTabsSwitch() {
