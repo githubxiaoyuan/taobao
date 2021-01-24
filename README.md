@@ -15,6 +15,10 @@
 
 
 
+本项目github地址：https://github.com/githubxiaoyuan/taobao
+
+
+
 ### 1.1 首页
 
 **预计样式：**
@@ -126,3 +130,7 @@
 ### 2021.1.24
 
 - 完成了首页的静态页面和动态交互效果的整体制作
+
+- 使用git初始化项目，并将项目推送到了github仓库中，https://github.com/githubxiaoyuan/taobao
+
+- 完成登录的前端页面制作
