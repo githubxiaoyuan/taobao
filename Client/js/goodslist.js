@@ -137,16 +137,76 @@ function filterSubMenu() {
 
 //商品分页功能
 (function() {
+
     layui.use('laypage', function() {
         var laypage = layui.laypage;
-        laypage.render({
-            elem: 'goodsPage',
-            count: 480,
-            limit: 48,
-            layout: ['prev', 'page', 'next', 'skip']
+
+        var goodsItemsBox = document.getElementById('goodsItemsBox');
+        //请求商品数据
+        var goodsData = [];
+
+        $.ajax({
+            url: 'http://127.0.0.1/api/goodslist',
+            method: 'GET',
+            success: function(res) {
+                if (res.status !== 1) {
+                    return console.log(res.message);
+                }
+                goodsData = res.data;
+                //渲染分页器
+                laypage.render({
+                    elem: 'goodsPage',
+                    count: res.total,
+                    limit: res.limit,
+                    layout: ['prev', 'page', 'next', 'skip'],
+                    jump: function(obj, first) {
+                        //渲染对应页的商品数目
+                        var data = goodsData.slice((obj.curr - 1) * 48, obj.curr * 48);
+                        var goodsArr = [];
+                        var goodsStr = '';
+                        for (var i = 0; i < data.length; i++) {
+                            var serviceStr = '';
+                            if (data[i].shop_service) {
+                                var s = data[i].shop_service;
+                                if (s.indexOf('icon-service-tianmao') !== -1) {
+                                    serviceStr += '<li class="tm-icon"><a href="#"></a></li>';
+                                }
+                                if (s.indexOf('icon-service-jinpaimaijia') !== -1) {
+                                    serviceStr += '<li class="gold-seller"><a href="#"></a></li>';
+                                }
+                                if (s.indexOf('icon-service-xinpin') !== -1) {
+                                    serviceStr += '<li class="new-goods-icon"><a href="#"></a></li>';
+                                }
+                                if (s.indexOf('icon-service-fuwu') !== -1) {
+                                    serviceStr += '<li class="service"><a href="#"></a></li>';
+                                }
+                                if (s.indexOf('icon-fest-gongyibaobei') !== -1) {
+                                    serviceStr += '<li class="public-welfare"><a href="#"></a></li>';
+                                }
+                            }
+                            //商品模板
+                            goodsStr = '<div class="goods-item"><div class="goods-pic-wrap"><a href="#"><img src="' + data[i].goods_img + '" alt=""></a></div><div class="goods-info"><div class="line line1 clearfix"><div class="goods-price-box"><span>￥</span><strong class="goods-price">' + data[i].goods_price + '</strong></div><div class="pay-number">' + data[i].pay_num + '</div><div class="goods-service-icon"></div></div><div class="line line2 clearfix"><a href="#" class="goods-title-dec">' + data[i].goods_title + '</a></div><div class="line line3 clearfix"><div class="goods-shop"><a href="#" class="shop-link"><span class="shop-icon"></span><span class="shop-name">' + data[i].shop_name + '</span></a></div><div class="location">' + data[i].shop_location + '</div></div><div class="line line4 clearfix"><div class="shop-honors"><ul class="clearfix">' + serviceStr + '</ul></div><div class="wangwang-icon"><a href="#"></a></div></div></div></div>';
+                            goodsArr.push(goodsStr);
+                        }
+                        goodsItemsBox.innerHTML = goodsArr.join('');
+
+                    }
+                });
+
+                //显示总页数文本
+                var pageTextDom = document.querySelector('.goods-page').querySelector('.layui-laypage-skip');
+                var totalPageText = document.createTextNode('共 ' + Math.ceil(res.total / res.limit) + ' 页，');
+                pageTextDom.insertBefore(totalPageText, pageTextDom.childNodes[0]);
+
+            }
         });
-        var str = $('.goods-page .layui-laypage-skip').html();
-        $('.goods-page .layui-laypage-skip').html('共 10 页，' + str);
+
+
 
     });
+})();
+
+//掌柜热卖随机渲染
+(function() {
+
 })();

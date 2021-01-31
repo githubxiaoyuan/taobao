@@ -379,6 +379,10 @@ body {
 .goods-list-module .m-goods-items .goods-item:hover {
   border-color: #FF4400;
 }
+.goods-list-module .m-goods-items .goods-item .goods-pic-wrap {
+  width: 250px;
+  height: 250px;
+}
 .goods-list-module .m-goods-items .goods-item .goods-pic-wrap a img {
   max-width: 250px;
   max-height: 250px;
@@ -445,6 +449,7 @@ body {
   top: 1px;
   width: 12px;
   height: 12px;
+  margin-right: 5px;
   background: url("../images/sprite.png") no-repeat -294px -169px;
 }
 .goods-list-module .m-goods-items .goods-item .goods-info .goods-shop .shop-name {
@@ -453,6 +458,7 @@ body {
 }
 .goods-list-module .m-goods-items .goods-item .goods-info .location {
   float: right;
+  color: #888;
 }
 .goods-list-module .m-goods-items .goods-item .goods-info .wangwang-icon {
   float: right;
@@ -573,7 +579,9 @@ body {
 .hot-goods .hot-goods-list li .hot-goods-title-mask .title {
   padding-left: 10px;
   padding-right: 10px;
+  color: #555;
   font-size: 12px;
+  font-weight: 700;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
