@@ -142,6 +142,8 @@ function filterSubMenu() {
         var laypage = layui.laypage;
 
         var goodsItemsBox = document.getElementById('goodsItemsBox');
+        var hotGoodsBox = document.getElementById('hotGoodsBox');
+
         //请求商品数据
         var goodsData = [];
 
@@ -190,6 +192,21 @@ function filterSubMenu() {
                         }
                         goodsItemsBox.innerHTML = goodsArr.join('');
 
+                        //渲染掌柜热卖
+                        var hotArr = [];
+                        var hotGoods = [];
+                        var hotStr = '';
+                        for (var i = 0; i < 16; i++) {
+                            var random = getRandom(0, goodsData.length - 1);
+                            while (hotArr.indexOf(random) !== -1) {
+                                random = getRandom(0, goodsData.length - 1);
+                            }
+                            hotArr.push(random);
+                            hotStr = ' <li><div class="hot-goods-img-wrap"><a href="#"><img src="' + goodsData[random].goods_img + '" alt=""></a></div><div class="hot-goods-info clearfix"><div class="hot-goods-price"><a href="#"><em>¥</em><strong>' + goodsData[random].goods_price + '</strong></a></div><div class="hot-goods-sales"><a href="#">销量：<span>' + goodsData[random].pay_num.replace('.0万', '0000') + '</span></a></div></div><div class="hot-goods-title-mask"><a href="#"><h3 class="title">' + goodsData[random].goods_title + '</h3></a></div></li>';
+                            hotGoods.push(hotStr);
+                        }
+                        hotGoodsBox.innerHTML = hotGoods.join('');
+
                     }
                 });
 
@@ -204,9 +221,17 @@ function filterSubMenu() {
 
 
     });
+
+
 })();
 
 //掌柜热卖随机渲染
 (function() {
 
 })();
+
+
+//获取指定范围的随机整数函数
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
