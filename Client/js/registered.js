@@ -1,12 +1,5 @@
-// 执行区
-window.onload = function() {
-    //注册功能
-    registered();
-};
-
-
-//注册验证
-function registered() {
+//注册功能模块
+(function() {
     var regForm = document.querySelector('.reg-form');
     var regUsername = regForm.querySelector('.reg-username');
     var regEmail = regForm.querySelector('.user-email');
@@ -88,7 +81,26 @@ function registered() {
 
         //当验证全部通过后发起注册请求
         if (userFlag && emailFlag && pwdFlag && repPwdFlag) {
-            alert('注册成功！');
+            var qData = {
+                username: regUsername.value,
+                password: regPassword.value,
+                email: regEmail.value
+            };
+            $.ajax({
+                url: '/api/registered',
+                method: 'POST',
+                data: qData,
+                success: function(res) {
+                    layui.use('layer', function() {
+                        var layer = layui.layer;
+                        if (res.status !== 1) {
+                            console.log(res);
+                            return layer.msg(res.message);
+                        }
+                        layer.msg(res.message);
+                    });
+                }
+            });
         }
 
 
@@ -97,9 +109,26 @@ function registered() {
     //验证用户名
     regUsername.onchange = function() {
         if (userReg.test(regUsername.value)) {
-            regUsername.nextElementSibling.innerText = '恭喜你，该用户名可以被使用 √';
-            regUsername.nextElementSibling.className = 'tip current';
-            userFlag = true;
+            //查询用户名是否已存在
+            $.ajax({
+                url: '/api/registered/user',
+                method: 'GET',
+                data: {
+                    username: regUsername.value
+                },
+                success: function(res) {
+                    if (res.status !== 1) {
+                        regUsername.nextElementSibling.innerText = '该用户名已被注册！';
+                        regUsername.nextElementSibling.className = 'tip error';
+                        userFlag = false;
+                        return;
+                    }
+                    regUsername.nextElementSibling.innerText = '恭喜你，该用户名可以被使用 √';
+                    regUsername.nextElementSibling.className = 'tip current';
+                    userFlag = true;
+                }
+            });
+
         } else {
             regUsername.nextElementSibling.innerText = '用户名只能是数字、字母、汉字和下划线组合，长度6-16位！';
             regUsername.nextElementSibling.className = 'tip error';
@@ -112,11 +141,27 @@ function registered() {
     //验证邮箱
     regEmail.onchange = function() {
         if (emailReg.test(regEmail.value)) {
-            regEmail.nextElementSibling.innerText = '恭喜你，该邮箱可以被使用 √';
-            regEmail.nextElementSibling.className = 'tip current';
-            emailFlag = true;
+            //查询邮箱是否已存在
+            $.ajax({
+                url: '/api/registered/email',
+                method: 'GET',
+                data: {
+                    email: regEmail.value
+                },
+                success: function(res) {
+                    if (res.status !== 1) {
+                        regEmail.nextElementSibling.innerText = '该邮箱已被注册！';
+                        regEmail.nextElementSibling.className = 'tip error';
+                        emailFlag = false;
+                        return;
+                    }
+                    regEmail.nextElementSibling.innerText = '恭喜你，该邮箱可以被使用 √';
+                    regEmail.nextElementSibling.className = 'tip current';
+                    emailFlag = true;
+                }
+            });
         } else {
-            regEmail.nextElementSibling.innerText = '请输入正确的邮箱！';
+            regEmail.nextElementSibling.innerText = '请输入正确的邮箱格式！';
             regEmail.nextElementSibling.className = 'tip error';
             emailFlag = false;
         }
@@ -158,5 +203,4 @@ function registered() {
             regSubmitBtn.style.opacity = '.5';
         }
     };
-
-}
+})();

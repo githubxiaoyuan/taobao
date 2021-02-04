@@ -1,7 +1,4 @@
 displaySideNav();
-
-
-
 // 触发网站导航
 function displaySideNav() {
     var siteNavTrigger = document.getElementById('siteNavTrigger');
