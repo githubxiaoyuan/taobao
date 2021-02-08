@@ -1,15 +1,5 @@
-// 执行区
-window.onload = function() {
-    //登录tab栏切换
-    loginTabsSwitch();
-    // 登录功能
-    login();
-};
-
-
-
 //登录tab栏切换
-function loginTabsSwitch() {
+(function() {
     var pwdLoginTab = document.querySelector('.pwd-login-tab');
     var smsLoginTab = document.querySelector('.sms-login-tab');
     var pwdLoginForm = document.querySelector('.login-pwd');
@@ -28,11 +18,11 @@ function loginTabsSwitch() {
         this.className = 'activity sms-login-tab';
         pwdLoginTab.className = 'pwd-login-tab';
     };
-}
+})();
 
 
-//登录验证
-function login() {
+//登录功能模块
+(function() {
     //密码登录验证
 
     var pwdLoginBtn = document.querySelector('.login-pwd-submit');
@@ -59,19 +49,35 @@ function login() {
         }
         loginError.style.display = 'none';
 
-        //账号密码不为空则发起登录请求
+        //发起登录请求
         $.ajax({
+            url: '/api/login',
             method: 'POST',
-            url: 'http://127.0.0.1/api/loginpwd',
-            data: $('.login-pwd form').serialize(),
+            data: {
+                username: loginUsername.value,
+                password: loginPassword.value
+            },
             success: function(res) {
+                console.log(res);
                 if (res.status !== 1) {
                     loginError.style.display = 'block';
                     loginErrorTip.innerText = '登录名或登录密码不正确';
                     return;
-                } else {
-                    location.href = './index.html';
                 }
+                layui.use('layer', function() {
+                    var layer = layui.layer;
+                    layer.msg('登陆成功！');
+                    //保存token
+                    localStorage.setItem('token', 'Bearer ' + res.token);
+                    //跳转到首页
+                    location.href = './index.html';
+                });
+            },
+            error: function() {
+                layui.use('layer', function() {
+                    var layer = layui.layer;
+                    layer.msg('登陆失败，请检查网络设置！');
+                });
             }
         });
     };
@@ -117,4 +123,4 @@ function login() {
         });
 
     };
-}
+})();

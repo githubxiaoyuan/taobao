@@ -128,6 +128,7 @@ function filterSubMenu() {
     }
 
 
+
     //价格排序的二级菜单
     var priceSort = document.querySelector('.price-sort');
     priceSort.onmouseover = function() {
@@ -138,8 +139,9 @@ function filterSubMenu() {
 //商品分页功能
 (function() {
 
-    layui.use('laypage', function() {
+    layui.use(['laypage', 'layer'], function() {
         var laypage = layui.laypage;
+        var layer = layui.layer;
 
         var goodsItemsBox = document.getElementById('goodsItemsBox');
         var hotGoodsBox = document.getElementById('hotGoodsBox');
@@ -148,87 +150,203 @@ function filterSubMenu() {
         var goodsData = [];
 
         $.ajax({
-            url: 'http://127.0.0.1/api/goodslist',
+            url: '/api/goodslist',
             method: 'GET',
             success: function(res) {
                 if (res.status !== 1) {
                     return console.log(res.message);
                 }
                 goodsData = res.data;
-                //渲染分页器
-                laypage.render({
-                    elem: 'goodsPage',
-                    count: res.total,
-                    limit: res.limit,
-                    layout: ['prev', 'page', 'next', 'skip'],
-                    jump: function(obj, first) {
-                        //渲染对应页的商品数目
-                        var data = goodsData.slice((obj.curr - 1) * 48, obj.curr * 48);
-                        var goodsArr = [];
-                        var goodsStr = '';
-                        for (var i = 0; i < data.length; i++) {
-                            var serviceStr = '';
-                            if (data[i].shop_service) {
-                                var s = data[i].shop_service;
-                                if (s.indexOf('icon-service-tianmao') !== -1) {
-                                    serviceStr += '<li class="tm-icon"><a href="#"></a></li>';
-                                }
-                                if (s.indexOf('icon-service-jinpaimaijia') !== -1) {
-                                    serviceStr += '<li class="gold-seller"><a href="#"></a></li>';
-                                }
-                                if (s.indexOf('icon-service-xinpin') !== -1) {
-                                    serviceStr += '<li class="new-goods-icon"><a href="#"></a></li>';
-                                }
-                                if (s.indexOf('icon-service-fuwu') !== -1) {
-                                    serviceStr += '<li class="service"><a href="#"></a></li>';
-                                }
-                                if (s.indexOf('icon-fest-gongyibaobei') !== -1) {
-                                    serviceStr += '<li class="public-welfare"><a href="#"></a></li>';
-                                }
-                            }
-                            //商品模板
-                            goodsStr = '<div class="goods-item"><div class="goods-pic-wrap"><a href="#"><img src="' + data[i].goods_img + '" alt=""></a></div><div class="goods-info"><div class="line line1 clearfix"><div class="goods-price-box"><span>￥</span><strong class="goods-price">' + data[i].goods_price + '</strong></div><div class="pay-number">' + data[i].pay_num + '</div><div class="goods-service-icon"></div></div><div class="line line2 clearfix"><a href="#" class="goods-title-dec">' + data[i].goods_title + '</a></div><div class="line line3 clearfix"><div class="goods-shop"><a href="#" class="shop-link"><span class="shop-icon"></span><span class="shop-name">' + data[i].shop_name + '</span></a></div><div class="location">' + data[i].shop_location + '</div></div><div class="line line4 clearfix"><div class="shop-honors"><ul class="clearfix">' + serviceStr + '</ul></div><div class="wangwang-icon"><a href="#"></a></div></div></div></div>';
-                            goodsArr.push(goodsStr);
-                        }
-                        goodsItemsBox.innerHTML = goodsArr.join('');
-
-                        //渲染掌柜热卖
-                        var hotArr = [];
-                        var hotGoods = [];
-                        var hotStr = '';
-                        for (var i = 0; i < 16; i++) {
-                            var random = getRandom(0, goodsData.length - 1);
-                            while (hotArr.indexOf(random) !== -1) {
-                                random = getRandom(0, goodsData.length - 1);
-                            }
-                            hotArr.push(random);
-                            hotStr = ' <li><div class="hot-goods-img-wrap"><a href="#"><img src="' + goodsData[random].goods_img + '" alt=""></a></div><div class="hot-goods-info clearfix"><div class="hot-goods-price"><a href="#"><em>¥</em><strong>' + goodsData[random].goods_price + '</strong></a></div><div class="hot-goods-sales"><a href="#">销量：<span>' + goodsData[random].pay_num.replace('.0万', '0000') + '</span></a></div></div><div class="hot-goods-title-mask"><a href="#"><h3 class="title">' + goodsData[random].goods_title + '</h3></a></div></li>';
-                            hotGoods.push(hotStr);
-                        }
-                        hotGoodsBox.innerHTML = hotGoods.join('');
-
-                    }
-                });
-
-                //显示总页数文本
-                var pageTextDom = document.querySelector('.goods-page').querySelector('.layui-laypage-skip');
-                var totalPageText = document.createTextNode('共 ' + Math.ceil(res.total / res.limit) + ' 页，');
-                pageTextDom.insertBefore(totalPageText, pageTextDom.childNodes[0]);
-
+                //渲染商品列表
+                renderGoodsList(res.total, res.limit);
             }
         });
 
+        //商品排序
+        $(".sort-module .sort-btn").on("click", function() {
+            $.each($(".sort-module .sort-btn"), function(index, item) {
+                $(item).removeClass("activity");
+            });
+            $(".sort-module .sort-price").removeClass("activity");
+            $(this).addClass("activity");
 
+
+            //默认排序
+            if ($(this).hasClass("sort-default-btn")) {
+                $.ajax({
+                    url: '/api/goodslist',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status !== 1) {
+                            return console.log(res.message);
+                        }
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    }
+                });
+
+            }
+
+            //按销量排序
+            if ($(this).hasClass("sort-sales-btn")) {
+                $.ajax({
+                    url: '/api/goodslist/sales',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status !== 1) {
+                            return console.log(res.message);
+                        }
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    }
+                });
+            }
+
+            //按信用（保障金）排序
+            if ($(this).hasClass("sort-credit-btn")) {
+                $.ajax({
+                    url: '/api/goodslist/credit',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status !== 1) {
+                            return console.log(res.message);
+                        }
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    }
+                });
+            }
+
+            //价格从低到高排序
+            if ($(this).hasClass("sort-price-asc")) {
+                $(".sort-module .sort-price").html($(this).text() + '<i class="iconfont icon-ai-arrow-down"></i>').addClass("activity");
+                $.ajax({
+                    url: '/api/goodslist/price_asc',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status !== 1) {
+                            return console.log(res.message);
+                        }
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    }
+                });
+            }
+
+            //价格从高到低排序
+            if ($(this).hasClass("sort-price-desc")) {
+                $(".sort-module .sort-price").html($(this).text() + '<i class="iconfont icon-ai-arrow-down"></i>').addClass("activity");
+                $.ajax({
+                    url: '/api/goodslist/price_desc',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status !== 1) {
+                            return console.log(res.message);
+                        }
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    }
+                });
+            }
+
+
+        });
+
+        //根据价格区间排序
+        $(".sort-module .price-submit-btn").on("click", function() {
+            //获取价格区间的两个值
+            var p1 = parseFloat($(".sort-module .input-price-filter1").val().trim());
+            var p2 = parseFloat($(".sort-module .input-price-filter2").val().trim());
+
+            //判断输入价格是否合法
+            if (!p1 || !p2 || p1 > p2) {
+                return layer.msg('请输入正确的价格区间！');
+            }
+            $.ajax({
+                url: '/api/goodslist/price_range',
+                method: 'GET',
+                data: {
+                    price1: p1,
+                    price2: p2
+                },
+                success: function(res) {
+                    if (res.status !== 1) {
+                        return console.log(res.message);
+                    }
+                    if (res.data.length > 0) {
+                        goodsData = res.data;
+                        //渲染商品列表
+                        renderGoodsList(res.total, res.limit);
+                    } else {
+                        return layer.msg('没有查询到相应结果！')
+                    }
+
+                }
+            });
+
+        });
+
+
+        //渲染商品列表函数
+        function renderGoodsList(total, limit) {
+            //渲染分页器
+            laypage.render({
+                elem: 'goodsPage',
+                count: total,
+                limit: limit,
+                layout: ['prev', 'page', 'next', 'skip'],
+                jump: function(obj, first) {
+                    //渲染对应页的商品数目
+                    var data = goodsData.slice((obj.curr - 1) * 48, obj.curr * 48);
+                    var goodsArr = [];
+                    var goodsStr = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].goods_title.indexOf(data[i].category) !== -1) {
+                            var reg = new RegExp(data[i].category, 'gi');
+                            var goodsTitle = data[i].goods_title.replace(reg, '<span class="s-keyword">' + data[i].category + '</span>');
+                        }
+
+                        //商品模板
+                        goodsStr = '<div class="goods-item"><div class="goods-pic-wrap"><a href="./item.html?id=' + data[i].id + '" target="_blank"><img src="' + data[i].goods_img + '" alt=""></a></div><div class="goods-info"><div class="line line1 clearfix"><div class="goods-price-box"><span>￥</span><strong class="goods-price">' + data[i].goods_price.toFixed(2) + '</strong></div><div class="pay-number">' + data[i].goods_sales + '人付款</div><div class="goods-service-icon"></div></div><div class="line line2 clearfix"><a href="./item.html?id=' + data[i].id + '" class="goods-title-dec" target="_blank">' + goodsTitle + '</a></div><div class="line line3 clearfix"><div class="goods-shop"><a href="./item.html?id=' + data[i].id + '" class="shop-link" target="_blank"><span class="shop-icon"></span><span class="shop-name">' + data[i].shop_name + '</span></a></div><div class="location">' + '广东 深圳' + '</div></div><div class="line line4 clearfix"><div class="shop-honors"><ul class="clearfix"></ul></div><div class="wangwang-icon"><a href="javascript:;"></a></div></div></div></div>';
+                        goodsArr.push(goodsStr);
+                    }
+                    goodsItemsBox.innerHTML = goodsArr.join('');
+
+                    //渲染掌柜热卖
+                    var hotArr = [];
+                    var hotGoods = [];
+                    var hotStr = '';
+                    for (var i = 0; i < 16; i++) {
+                        var random = getRandom(0, goodsData.length - 1);
+                        while (hotArr.indexOf(random) !== -1) {
+                            random = getRandom(0, goodsData.length - 1);
+                        }
+
+                        hotArr.push(random);
+                        hotStr = ' <li><div class="hot-goods-img-wrap"><a href="./item.html?id=' + goodsData[random].id + '" target="_blank"><img src="' + goodsData[random].goods_img + '" alt=""></a></div><div class="hot-goods-info clearfix"><div class="hot-goods-price"><a href="./item.html?id=' + goodsData[random].id + '" target="_blank"><em>¥</em><strong>' + goodsData[random].goods_price.toFixed(2) + '</strong></a></div><div class="hot-goods-sales"><a href="./item.html?id=' + goodsData[random].id + '" target="_blank">销量：<span>' + goodsData[random].goods_sales + '</span></a></div></div><div class="hot-goods-title-mask"><a href="./item.html?id=' + goodsData[random].id + '" target="_blank"><h3 class="title">' + goodsData[random].goods_title + '</h3></a></div></li>';
+                        hotGoods.push(hotStr);
+                    }
+                    hotGoodsBox.innerHTML = hotGoods.join('');
+
+                }
+            });
+
+            //显示总页数文本
+            var pageTextDom = document.querySelector('.goods-page').querySelector('.layui-laypage-skip');
+            var totalPageText = document.createTextNode('共 ' + Math.ceil(total / limit) + ' 页，');
+            pageTextDom.insertBefore(totalPageText, pageTextDom.childNodes[0]);
+        }
 
     });
 
 
 })();
 
-//掌柜热卖随机渲染
-(function() {
-
-})();
 
 
 //获取指定范围的随机整数函数

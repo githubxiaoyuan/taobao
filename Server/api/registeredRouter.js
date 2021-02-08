@@ -91,7 +91,7 @@ apiRouter.post("/registered", (req, res) => {
 
                     if (checkFlag) {
                         //获取在服务器上的注册时间
-                        const regTime = moment().format("YYYY-MM-DD hh:mm:ss");
+                        const regTime = moment().format("YYYY-MM-DD HH:mm:ss");
                         //定义插入用户账号信息sql语句
                         const sql3 = 'insert into account (username,email,password,create_date) values(?,?,?,?) ';
                         //执行插入数据请求

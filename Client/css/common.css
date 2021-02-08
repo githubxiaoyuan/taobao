@@ -189,7 +189,7 @@
     position: absolute;
     top: 35px;
     left: 0;
-    z-index: 20;
+    z-index: 99;
     width: 100%;
     min-height: 258px;
     border: 1px solid #eee;
@@ -197,6 +197,8 @@
 }
 
 .site-nav-float .site-nav-mod-wrap {
+    position: relative;
+    z-index: 99;
     overflow: hidden;
     float: left;
     width: 25%;

@@ -9,7 +9,6 @@
   tbSwiperFn();
   // 天猫轮播图
   tmSwiperFn();
-
   // 搜索tab栏切换
   searchTabsSwitch();
   // 触发侧边导航栏二级菜单
@@ -22,6 +21,8 @@
   conveSubCard();
   // 关闭二维码
   closeQRcode();
+  // 渲染首页用户模块信息
+  renderIndexUserMod();
 
 
   /* main执行区 END */
@@ -589,6 +590,36 @@
           conveTripGo.style.backgroundPosition = '0 -71px';
           endTravelDate.style.display = 'block';
       };
+  }
+
+  //渲染用户信息
+  function renderIndexUserMod() {
+      var welcome = document.querySelector('.welcome-user');
+      //判断是否存在token
+      if (localStorage.getItem('token')) {
+          $.ajax({
+              url: '/user/userInfo',
+              method: 'GET',
+              success: function(res) {
+                  //渲染首页用户区信息
+                  $('.user-module .welcome-text').text('Hi！' + res.data.username);
+                  //渲染默认头像
+                  $(".user-module .user-avatar a").html(res.data.username.charAt(0)).css("background-color", "#FF8300");
+                  $(".user-module .logout").hide();
+                  $(".user-module .login").show();
+                  return;
+              }
+          });
+      } else {
+          //渲染首页用户区信息
+          $('.user-module .welcome-text').text('Hi！你好');
+          //渲染默认头像
+          $(".user-module .user-avatar a").html('<img src="images/user-default-avatar.jpg" alt="">');
+          $(".user-module .login").hide();
+          $(".user-module .logout").show();
+          return;
+      }
+
   }
 
 

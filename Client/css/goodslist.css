@@ -306,13 +306,13 @@ body {
   padding: 0 19px;
   border-right: 1px solid transparent;
 }
-.sort-module .sort-main .sort-bar .sorts li.sort a:hover {
+.sort-module .sort-main .sort-bar .sorts li.sort a .iconfont {
+  color: #A2A2A2;
+}
+.sort-module .sort-main .sort-bar .sorts li.sort a.sort-btn:hover {
   color: #FF5500;
   background-color: #FFFFFF;
   border-color: #E5E5E5;
-}
-.sort-module .sort-main .sort-bar .sorts li.sort a .iconfont {
-  color: #A2A2A2;
 }
 .sort-module .sort-main .sort-bar .sorts li.sort a.activity {
   color: #FF5500;
