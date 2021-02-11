@@ -170,7 +170,7 @@
     padding: 8px;
     line-height: 40px;
     min-height: 40px;
-    text-align: right;
+    /* text-align: right; */
 }
 
 .header-right-nav .shopping-cart .shopping-cart-menu .my-shopping-cart-link {
@@ -182,6 +182,99 @@
     background-color: #f40;
     border-radius: 2px;
     vertical-align: middle;
+}
+
+.header-right-nav .shopping-cart-menu .mini-cart-hd h4 {
+    padding: 10px 0;
+    line-height: 20px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-img-wrap {
+    float: left;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-img-wrap a {
+    display: inline;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-img-wrap a:hover {
+    background-color: #fff;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-img-wrap img {
+    width: 40px;
+    height: 40px;
+    vertical-align: top;
+}
+
+.header-right-nav .shopping-cart-menu .mini-item {
+    margin-bottom: 5px;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-title {
+    float: left;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-title h4 {
+    overflow: hidden;
+    width: 160px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-title h4 a {
+    /* width: 160px;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-title h4 a:hover {
+    color: #f40;
+    text-decoration: underline;
+    background-color: #fff;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right {
+    float: right;
+    line-height: 20px;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right .mini-goods-price {
+    color: #f40;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right .mini-goods-price .rmb-symbol {
+    font-family: arial;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right .goods-option {
+    text-align: center;
+    line-height: 20px;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right .goods-option a {
+    display: inline;
+    /* color: #f40; */
+    line-height: 20px;
+}
+
+.header-right-nav .shopping-cart-menu .mini-goods-right .goods-option a:hover {
+    color: #f40;
+    text-decoration: underline;
+    background-color: #fff;
+}
+
+.header-right-nav .shopping-cart-menu .mini-cart-ft h3 {
+    float: left;
+}
+
+.header-right-nav .shopping-cart-menu .mini-cart-ft a {
+    position: relative;
+    top: 8px;
+    float: right;
 }
 
 .site-nav-float {

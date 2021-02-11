@@ -4,7 +4,7 @@ $.ajaxPrefilter(function(option) {
     option.url = 'http://127.0.0.1' + option.url;
 
     //对有权限的接口自动携带token
-    if (option.url.indexOf('/user/')) {
+    if (option.url.indexOf('/user/') !== -1 || option.url.indexOf('/shop/') !== -1) {
         option.headers = {
             Authorization: localStorage.getItem('token')
         };
@@ -15,8 +15,10 @@ $.ajaxPrefilter(function(option) {
         if (res.responseJSON.status === 401 && res.responseJSON.message === "身份认证失败") {
             //移除本地token
             localStorage.removeItem('token');
-            // location.href = "login.html";
-            console.log('请重新登录');
+            layui.use('layer', function() {
+                var layer = layui.layer;
+                layer.msg('身份已过期，请重新登录！');
+            });
         }
     }
 })

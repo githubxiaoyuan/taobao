@@ -1,5 +1,7 @@
 //渲染商品页面
 
+//渲染顶部购物车
+renderHeaderShopCart();
 //获取url携带的商品ID
 var goodsId = parseInt(location.search.substr(location.search.indexOf('=') + 1));
 
@@ -51,6 +53,8 @@ $.ajax({
 
                 //执行放大镜功能
                 zoom();
+                //执行添加到购物车功能
+                addGoods();
                 break;
             default:
                 goodsMain.innerHTML = '<h2 style="padding:100px 0;text-align:center;font-size:60px;color:#f40;">请求商品数据失败，原因未知！</h2>';
@@ -64,7 +68,134 @@ $.ajax({
     }
 });
 
+//加入购物车功能
+function addGoods() {
+    layui.use('layer', function() {
+        var layer = layui.layer;
 
+        //商品数量控制
+        var goodsNumInput = document.getElementsByClassName('tb-goods-num')[0];
+        var limitFlag = false;
+
+        goodsNumInput.oninput = function() {
+            goodsNumLimit();
+        };
+
+        //增加商品数量
+        $(".tb-add-goods").on("click", function() {
+            //判断是否为可点击状态
+            if (!$(this).hasClass("ban")) {
+                //加1数量
+                $(goodsNumInput).val(parseInt($(goodsNumInput).val()) + 1);
+                //数量限制处理
+                goodsNumLimit();
+            } else {
+                return;
+            }
+        });
+
+        //减少商品数量
+        $(".tb-reduce-goods").on("click", function() {
+            //判断是否为可点击状态
+            if (!$(this).hasClass("ban")) {
+                //减1数量
+                $(goodsNumInput).val(parseInt($(goodsNumInput).val()) - 1);
+                //数量限制处理
+                goodsNumLimit();
+            } else {
+                return;
+            }
+        });
+
+        //加入到购物车
+        $(".add-goods-btn").on("click", function() {
+            if (localStorage.getItem('token')) {
+                var qData = {
+                    goodsId: goodsId,
+                    goodsNum: parseInt(goodsNumInput.value)
+                };
+                //商品数量限制
+                goodsNumLimit(add);
+
+                function add() {
+                    $.ajax({
+                        url: '/shop/addGoods',
+                        method: 'POST',
+                        data: qData,
+                        success: function(res) {
+                            if (res.status !== 1) {
+                                return layer.msg(res.message);
+                            }
+                            //添加成功后更新顶部购物车
+                            renderHeaderShopCart();
+                            layer.msg(res.message);
+                            return;
+                        },
+                        error: function() {
+                            return layer.msg("加入购物车失败，请检查网络设置！");
+                        }
+                    });
+                }
+            } else {
+                layer.msg("身份已过期，请重新登录！")
+                setTimeout(function() {
+                    return location.href = './login.html';
+                }, 1500);
+            }
+        });
+
+
+        //商品数量限制
+        function goodsNumLimit(cb) {
+            //数量只能为大于等于1的整数
+            if (!parseInt(goodsNumInput.value) || goodsNumInput.value == 1) {
+                goodsNumInput.value = 1;
+                //禁用减少按钮
+                $(".tb-reduce-goods").addClass("ban");
+                //执行传递进来的回调函数
+                if (cb) {
+                    cb();
+                }
+            } else {
+                //数量不能超过库存
+                //获取库存数量
+                $.ajax({
+                    url: '/api/item/goods_num',
+                    method: 'GET',
+                    data: {
+                        goodsId: goodsId
+                    },
+                    success: function(res) {
+                        if (parseInt(goodsNumInput.value) >= parseInt(res.data.goods_reserve)) {
+                            goodsNumInput.value = parseInt(res.data.goods_reserve);
+                            //禁用增加数量按钮
+                            $(".tb-add-goods").addClass("ban");
+                            layer.msg("已达到最大库存量，不能再继续添加！");
+                        } else {
+                            goodsNumInput.value = parseInt(goodsNumInput.value);
+                            //激活增加按钮
+                            $(".tb-add-goods").removeClass("ban");
+                        }
+                        //数量大于1激活减少按钮
+                        if (parseInt(goodsNumInput.value) > 1) {
+                            $(".tb-reduce-goods").removeClass("ban");
+                        }
+                        //执行传递进来的回调函数
+                        if (cb) {
+                            cb();
+                        }
+                    },
+                    error: function() {
+                        return layer.msg('获取商品库存失败，请检查网络设置！');
+                    }
+                });
+            }
+        }
+
+
+    });
+
+}
 
 //放大镜功能
 function zoom() {
@@ -111,4 +242,41 @@ function zoom() {
         }
         bigImg.style.transform = 'translate(' + (-parseFloat(mask.style.left) * bigImg.offsetWidth / previewBox.clientWidth) + 'px,' + (-parseFloat(mask.style.top) * bigImg.offsetHeight / previewBox.clientHeight) + 'px)';
     };
+}
+
+//渲染顶部购物车状态
+function renderHeaderShopCart() {
+    layui.use('layer', function() {
+        $.ajax({
+            url: '/shop/cartInfo',
+            method: 'POST',
+            success: function(res) {
+                if (res.status !== 1) {
+                    //渲染顶部购物车
+                    $(".shopping-cart-menu").html('<p>' + res.message + '<a href="./login.html" class="my-shopping-cart-link">重新登录</a></p>');
+                    return layer.msg(res.message);
+                }
+                $(".header-right-nav .shopping-cart .good-num").text(res.data.length);
+                if (res.data.length > 0) {
+                    var miniGoodsStr = '';
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (i >= 3) {
+                            break;
+                        }
+                        miniGoodsStr += '<div class="mini-item clearfix"><div class="mini-goods-img-wrap"><a href="./item.html?id=' + res.data[i].goods_id + '"><img src="' + res.data[i].goods_img + '" alt="" title="' + res.data[i].goods_name + '"></a></div><div class="mini-goods-title"><h4><a href="./item.html?id=' + res.data[i].goods_id + '" title="' + res.data[i].goods_name + '">' + res.data[i].goods_name + '</a></h4></div><div class="mini-goods-right"><div class="mini-goods-price"><em class="rmb-symbol">￥</em><em class="goods-price">' + parseFloat(res.data[i].goods_price).toFixed(2) + '</em></div><div class="goods-option"><a href="javascript:;" class="hd-mini-cart-delete">删除</a></div></div></div>';
+                    }
+                    var miniCartStr = '<div class="mini-cart-hd"><h4>最近加入的宝贝：</h4></div><div class="mini-cart-goods">' + miniGoodsStr + '</div><div class="mini-cart-ft clearfix"><h3>更多请查看完整版购物车→</h3><a href="./cart.html" class="my-shopping-cart-link">查看我的购物车</a></div>';
+                    //渲染顶部迷你购物车
+                    $(".shopping-cart-menu").html(miniCartStr);
+                } else {
+                    $(".shopping-cart-menu").html('<p>您购物车里还没有任何宝贝。<a href="./cart.html" class="my-shopping-cart-link">查看我的购物车</a></p>');
+                }
+            },
+            error: function() {
+                //渲染顶部购物车
+                $(".shopping-cart-menu").html('<p>请检查网络设置，或者重新登陆。<a href="./login.html" class="my-shopping-cart-link">重新登录</a></p>');
+                return layer.msg('请求购物车信息失败，请检查网络设置！');
+            }
+        });
+    });
 }

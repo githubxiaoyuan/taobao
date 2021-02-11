@@ -21,6 +21,8 @@ const userInfoRouter = require('./user/userInfo');
 const goodslistRouter = require('./api/goodslistRouter');
 //导入商品详情路由模块
 const itemRouter = require('./api/itemRouter');
+//导入购物车路由模块
+const shopCartRouter = require('./shop/shopCartRouter');
 
 
 //实例化express对象
@@ -58,6 +60,8 @@ app.use('/user', userInfoRouter);
 app.use('/api', goodslistRouter);
 //挂载商品详情路由
 app.use('/api', itemRouter);
+//挂载购物车路由
+app.use('/shop', shopCartRouter);
 
 
 //使用全局错误处理中间件，捕获解析 JWT 失败后产生的错误

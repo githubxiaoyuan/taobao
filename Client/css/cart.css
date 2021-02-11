@@ -95,6 +95,17 @@ body {
   border: 1px solid #CCCCCC;
   background: #FCFCFC;
 }
+.c-container .diy-checkbox {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+  background: url("../images/sprite7.png") no-repeat 0 0;
+  cursor: pointer;
+}
+.c-container .diy-checkbox[data-checked="true"] {
+  background-position: 0 -20px;
+}
 .c-container .shop-info {
   padding-left: 15px;
   line-height: 38px;
@@ -241,6 +252,17 @@ body {
   background: #fff;
   margin-left: -1px;
 }
+.c-container .decrement.ban,
+.c-container .increment.ban {
+  color: #ccc;
+  cursor: not-allowed;
+  background-color: #ededed;
+}
+.c-container .decrement.ban:hover,
+.c-container .increment.ban:hover {
+  color: #CCCCCC !important;
+  border-color: #E5E5E5 !important;
+}
 .c-container .itxt {
   float: left;
   border: 1px solid #cacbcb;
@@ -281,13 +303,22 @@ body {
 .c-container .p-action .td-inner a:hover {
   text-decoration: underline;
 }
+.c-container .cart-floatbar-box {
+  width: 1190px;
+  height: 50px;
+}
 .c-container .cart-floatbar {
   position: relative;
   height: 50px;
-  margin-bottom: 50px;
   color: #3c3c3c;
   line-height: 50px;
   background: #E5E5E5;
+}
+.c-container .cart-floatbar-fixed {
+  position: fixed;
+  bottom: 0;
+  width: 1190px;
+  margin-bottom: 0;
 }
 .c-container .select-all {
   float: left;
@@ -356,6 +387,12 @@ body {
   font-size: 20px;
   font-family: 'Lantinghei SC', 'Microsoft Yahei';
   text-align: center;
+}
+.c-container .btn-area[data-disabled="true"] {
   background: #B0B0B0;
   cursor: not-allowed;
+}
+.c-container .btn-area[data-disabled="false"] {
+  background: #FF4400;
+  cursor: pointer;
 }

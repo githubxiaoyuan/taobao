@@ -94,10 +94,18 @@
                     layui.use('layer', function() {
                         var layer = layui.layer;
                         if (res.status !== 1) {
-                            console.log(res);
                             return layer.msg(res.message);
                         }
                         layer.msg(res.message);
+                        setTimeout(function() {
+                            return location.href = './login.html';
+                        }, 1500);
+                    });
+                },
+                error: function() {
+                    layui.use('layer', function() {
+                        var layer = layui.layer;
+                        layer.msg('注册失败，请检查网络设置！');
                     });
                 }
             });

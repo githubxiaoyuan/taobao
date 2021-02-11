@@ -58,7 +58,6 @@
                 password: loginPassword.value
             },
             success: function(res) {
-                console.log(res);
                 if (res.status !== 1) {
                     loginError.style.display = 'block';
                     loginErrorTip.innerText = '登录名或登录密码不正确';

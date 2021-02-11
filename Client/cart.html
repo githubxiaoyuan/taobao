@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <!-- 导入字体图标 -->
     <link rel="stylesheet" href="font/iconfont.css">
+    <!-- 导入layui.css -->
+    <link rel="stylesheet" href="./lib/layui/css/layui.css">
     <!-- 导入基础样式 -->
     <link rel="stylesheet" href="css/base.css">
     <!-- 导入页面公共部分样式 -->
@@ -370,7 +372,8 @@
                 <!-- 头部全选模块 -->
                 <div class="cart-thead clearfix">
                     <div class="t-checkbox">
-                        <input type="checkbox" name="" id="" class="checkall"> 全选
+                        <!-- <input type="checkbox" name="" id="" class="checkall"> -->
+                        <span class="diy-checkbox all-select-checkbox" data-checked="false"></span> 全选
                     </div>
                     <div class="t-goods">商品信息</div>
                     <div class="t-info"></div>
@@ -381,220 +384,27 @@
                 </div>
                 <!-- 商品详细模块 -->
                 <div class="cart-item-list">
-                    <div class="cart-item check-cart-item clearfix">
-                        <div class="shop-info clearfix">
-                            <div class="shop-checkbox-wrap">
-                                <input type="checkbox" class="shop-checkbox">
-                            </div>
-                            <div class="shop-name-box">
-                                <span>&nbsp;&nbsp;店铺：</span>
-                                <a href="#" class="shop-name">三只松鼠旗舰店</a>
-                                <a href="#" class="wangwang-icon"></a>
-                            </div>
-                        </div>
-                        <div class="cart-item-inner clearfix">
-                            <div class="p-checkbox">
-                                <div class="td-inner">
-                                    <input type="checkbox" name="" id="" checked class="j-checkbox">
-                                </div>
-                            </div>
-                            <div class="p-goods">
-                                <div class="td-inner">
-                                    <div class="p-img">
-                                        <a href="#">
-                                            <img src="https://img.alicdn.com/bao/uploaded/i3/880734502/O1CN01PfNjLJ1j7xkLm9qYn_!!0-item_pic.jpg_80x80.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="p-msg"><a href="#">【三只松鼠_猪肉脯160g】网红小吃零食干猪肉铺靖江特产熟食即食</a></div>
-                                </div>
-
-                            </div>
-                            <div class="p-category">
-                                <div class="td-inner">
-                                    <p class="cat-line">肉类产品：猪肉脯</p>
-                                    <p class="cat-line">口味：推荐_【醇香正宗】猪肉脯原味160gx1袋</p>
-                                </div>
-                            </div>
-                            <div class="p-price">
-                                <div class="td-inner">
-                                    <div class="td-item-price">
-                                        <p class="price-line"><em class="pre-price">￥50.00</em></p>
-                                        <p class="price-line"><em class="now-price">￥24.90</em></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-num">
-                                <div class="td-inner">
-                                    <div class="quantity-form">
-                                        <a href="javascript:;" class="decrement btn">-</a>
-                                        <input type="text" class="itxt" value="1">
-                                        <a href="javascript:;" class="increment btn">+</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-sum">
-                                <div class="td-inner">
-                                    <em class="item-price-sum">￥46.00</em>
-                                </div>
-                            </div>
-                            <div class="p-action">
-                                <div class="td-inner">
-                                    <a href="javascript:;">移入收藏夹</a>
-                                    <a href="javascript:;">删除</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="cart-item check-cart-item clearfix">
-                        <div class="shop-info clearfix">
-                            <div class="shop-checkbox-wrap">
-                                <input type="checkbox" class="shop-checkbox">
-                            </div>
-                            <div class="shop-name-box">
-                                <span>&nbsp;&nbsp;店铺：</span>
-                                <a href="#" class="shop-name">三只松鼠旗舰店</a>
-                                <a href="#" class="wangwang-icon"></a>
-                            </div>
-                        </div>
-                        <div class="cart-item-inner clearfix">
-                            <div class="p-checkbox">
-                                <div class="td-inner">
-                                    <input type="checkbox" name="" id="" checked class="j-checkbox">
-                                </div>
-                            </div>
-                            <div class="p-goods">
-                                <div class="td-inner">
-                                    <div class="p-img">
-                                        <a href="#">
-                                            <img src="https://img.alicdn.com/bao/uploaded/i3/880734502/O1CN01PfNjLJ1j7xkLm9qYn_!!0-item_pic.jpg_80x80.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="p-msg"><a href="#">【三只松鼠_猪肉脯160g】网红小吃零食干猪肉铺靖江特产熟食即食</a></div>
-                                </div>
-
-                            </div>
-                            <div class="p-category">
-                                <div class="td-inner">
-                                    <p class="cat-line">肉类产品：猪肉脯</p>
-                                    <p class="cat-line">口味：推荐_【醇香正宗】猪肉脯原味160gx1袋</p>
-                                </div>
-                            </div>
-                            <div class="p-price">
-                                <div class="td-inner">
-                                    <div class="td-item-price">
-                                        <p class="price-line"><em class="pre-price">￥50.00</em></p>
-                                        <p class="price-line"><em class="now-price">￥24.90</em></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-num">
-                                <div class="td-inner">
-                                    <div class="quantity-form">
-                                        <a href="javascript:;" class="decrement btn">-</a>
-                                        <input type="text" class="itxt" value="1">
-                                        <a href="javascript:;" class="increment btn">+</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-sum">
-                                <div class="td-inner">
-                                    <em class="item-price-sum">￥46.00</em>
-                                </div>
-                            </div>
-                            <div class="p-action">
-                                <div class="td-inner">
-                                    <a href="javascript:;">移入收藏夹</a>
-                                    <a href="javascript:;">删除</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="cart-item check-cart-item clearfix">
-                        <div class="shop-info clearfix">
-                            <div class="shop-checkbox-wrap">
-                                <input type="checkbox" class="shop-checkbox">
-                            </div>
-                            <div class="shop-name-box">
-                                <span>&nbsp;&nbsp;店铺：</span>
-                                <a href="#" class="shop-name">三只松鼠旗舰店</a>
-                                <a href="#" class="wangwang-icon"></a>
-                            </div>
-                        </div>
-                        <div class="cart-item-inner clearfix">
-                            <div class="p-checkbox">
-                                <div class="td-inner">
-                                    <input type="checkbox" name="" id="" checked class="j-checkbox">
-                                </div>
-                            </div>
-                            <div class="p-goods">
-                                <div class="td-inner">
-                                    <div class="p-img">
-                                        <a href="#">
-                                            <img src="https://img.alicdn.com/bao/uploaded/i3/880734502/O1CN01PfNjLJ1j7xkLm9qYn_!!0-item_pic.jpg_80x80.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="p-msg"><a href="#">【三只松鼠_猪肉脯160g】网红小吃零食干猪肉铺靖江特产熟食即食</a></div>
-                                </div>
-
-                            </div>
-                            <div class="p-category">
-                                <div class="td-inner">
-                                    <p class="cat-line">肉类产品：猪肉脯</p>
-                                    <p class="cat-line">口味：推荐_【醇香正宗】猪肉脯原味160gx1袋</p>
-                                </div>
-                            </div>
-                            <div class="p-price">
-                                <div class="td-inner">
-                                    <div class="td-item-price">
-                                        <p class="price-line"><em class="pre-price">￥50.00</em></p>
-                                        <p class="price-line"><em class="now-price">￥24.90</em></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-num">
-                                <div class="td-inner">
-                                    <div class="quantity-form">
-                                        <a href="javascript:;" class="decrement btn">-</a>
-                                        <input type="text" class="itxt" value="1">
-                                        <a href="javascript:;" class="increment btn">+</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-sum">
-                                <div class="td-inner">
-                                    <em class="item-price-sum">￥46.00</em>
-                                </div>
-                            </div>
-                            <div class="p-action">
-                                <div class="td-inner">
-                                    <a href="javascript:;">移入收藏夹</a>
-                                    <a href="javascript:;">删除</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-
                 <!-- 结算模块 -->
-                <div class="cart-floatbar">
-                    <div class="select-all">
-                        <input type="checkbox" name="" id="" class="checkall">全选
-                    </div>
-                    <div class="operation">
-                        <a href="javascript:;" class="remove-batch"> 删除选中的商品</a>
-                        <a href="javascript:;" class="add-favorites">移入收藏夹</a>
-                        <a href="javascript:;" class="clear-all">清理购物车</a>
+                <div class="cart-floatbar-box">
+                    <div class="cart-floatbar">
+                        <div class="select-all">
+                            <span class="diy-checkbox all-select-checkbox" data-checked="false"></span>全选
+                        </div>
+                        <div class="operation">
+                            <a href="javascript:;" class="remove-batch"> 删除选中的商品</a>
+                            <a href="javascript:;" class="add-favorites">移入收藏夹</a>
+                            <a href="javascript:;" class="clear-all">清理购物车</a>
 
-                    </div>
-                    <div class="toolbar-right">
-                        <div class="amount-sum">已经选<em>1</em>件商品</div>
-                        <div class="price-sum">合计（不含运费）： <i>￥</i><em>12.60</em></div>
-                        <button class="btn-area" type="submit" disabled="true">结&nbsp;算</button>
+                        </div>
+                        <div class="toolbar-right">
+                            <div class="amount-sum">已经选<em class="amount-sum-num">0</em>件商品</div>
+                            <div class="price-sum">合计（不含运费）： <i>￥</i><em class="price-sum-num">0.00</em></div>
+                            <button class="btn-area" type="submit" data-disabled="true" id="cartSettlementBtn">结&nbsp;算</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -639,6 +449,8 @@
 
     <!-- 导入Jquery -->
     <script src="lib/jquery-3.5.1.min.js"></script>
+    <!-- 导入layui的js文件 -->
+    <script src="lib/layui/layui.js"></script>
     <!-- 导入API根路径 -->
     <script src="./js/baseAPI.js"></script>
     <!-- 导入公共JS文件 -->

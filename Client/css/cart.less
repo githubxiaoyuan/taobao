@@ -1,4 +1,5 @@
 body {
+    // overflow-x: auto;
     background-color: #fff;
 }
 .header{
@@ -114,6 +115,20 @@ body {
         border: 1px solid #CCCCCC;
         background: #FCFCFC;
         
+    }
+    .diy-checkbox {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        vertical-align: middle;
+        background: url("../images/sprite7.png") no-repeat 0 0;
+        cursor: pointer;
+        // &:hover {
+        //     background-position: 0 -20px;
+        // }
+        &[data-checked="true"]{
+            background-position: 0 -20px;
+        }
     }
 
     .shop-info {
@@ -280,6 +295,15 @@ body {
         margin: 0;
         background: #fff;
         margin-left: -1px;
+        &.ban {
+            color: #ccc;
+            cursor: not-allowed;
+            background-color: #ededed; 
+            &:hover {
+                color: #CCCCCC !important;
+                border-color: #E5E5E5 !important;
+            }
+        }
     }
     
     .itxt {
@@ -327,14 +351,24 @@ body {
     
     /* 结算模块 */
     
+    .cart-floatbar-box {
+        width: 1190px;
+        height: 50px;
+    }
     .cart-floatbar {
         position: relative;
         height: 50px;
         // border: 1px solid #f0f0f0;
-        margin-bottom: 50px;
+        // margin-bottom: 50px;
         color: #3c3c3c;
         line-height: 50px;
         background:#E5E5E5;
+    }
+    .cart-floatbar-fixed {
+        position: fixed;
+        bottom: 0;
+        width: 1190px;
+        margin-bottom: 0;
     }
     
     .select-all {
@@ -418,8 +452,15 @@ body {
         font-family: 'Lantinghei SC','Microsoft Yahei';
         text-align: center;
         // background: #e54346;
-        background: #B0B0B0;
-        cursor: not-allowed;
+       
+        &[data-disabled="true"]{
+            background: #B0B0B0;
+            cursor: not-allowed;
+        }
+        &[data-disabled="false"]{
+            background: #FF4400;
+            cursor: pointer;
+        }
     }
 
 }
