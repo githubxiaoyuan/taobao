@@ -362,6 +362,8 @@ function goodsSearch() {
                         if (data[i].goods_title.indexOf(keyword) !== -1) {
                             var reg = new RegExp(keyword, 'gi');
                             var goodsTitle = data[i].goods_title.replace(reg, '<span class="s-keyword">' + keyword + '</span>');
+                        } else {
+                            var goodsTitle = data[i].goods_title;
                         }
 
                         //商品模板

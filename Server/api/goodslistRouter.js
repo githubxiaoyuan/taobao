@@ -12,6 +12,16 @@ apiRouter.get('/goodslist', (req, res) => {
     let addSql = 'goods_title like "%%"';
     if (req.query.keyword) {
         keyword = req.query.keyword;
+        let keywordArr = [];
+        for (let i = 0; i < keyword.length; i++) {
+            if (i == keyword.length - 1) {
+                keywordArr.push(keyword[i]);
+            } else {
+                keywordArr.push(keyword[i] + '%');
+            }
+        }
+        keyword = keywordArr.join('');
+        console.log(keyword);
         if (keyword.trim()) {
             addSql = 'goods_title like "%' + keyword + '%"';
         }
