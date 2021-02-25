@@ -75,7 +75,7 @@
 
   ![](./doc/content1.png)
 
-  ![content2](D:\QF-H5\taobao\doc\content2.png)
+  ![content2](./doc/content2.png)
 
 
 
