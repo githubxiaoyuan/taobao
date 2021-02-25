@@ -10,6 +10,8 @@ const qs = require('querystring');
 const jwt = require('jsonwebtoken');
 //导入express-jwt模块
 const expressJWT = require('express-jwt');
+//导入自动打开浏览器模块
+const opn = require('opn');
 
 //导入用户注册路由模块
 const registeredRouter = require('./api/registeredRouter');
@@ -86,4 +88,6 @@ app.use((err, req, res, next) => {
 //启动服务端
 app.listen(80, () => {
     console.log('Taobao server running successful at http://127.0.0.1');
+    //打开首页
+    opn('http://127.0.0.1');
 });

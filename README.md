@@ -31,13 +31,17 @@
 
 **项目启动说明：**
 
-1、从github上克隆项目到本地
+1、从github上克隆项目到本地：`git clone https://github.com/githubxiaoyuan/taobao.git`
 
-2、安装NodeJs（已安装忽略）
+2、安装NodeJs（已安装忽略）：https://nodejs.org/zh-cn/
 
-3、打开终端，进入到项目的Server文件夹，输入`node main.js` 命令启动项目的服务端
+3、安装Mysql（已安装忽略）：https://dev.mysql.com/downloads/installer/
 
-4、在浏览器地址栏输入：`http://127.0.0.1` 即可访问web
+4、将项目db目录中的`taobao.sql`文件导入到mysql数据库中
+
+5、开启mysql服务，打开终端，进入到项目的Server文件夹，输入`node main.js` 命令启动项目的服务端
+
+6、在浏览器地址栏输入：`http://127.0.0.1` 即可访问web
 
 
 
