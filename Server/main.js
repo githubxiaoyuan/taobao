@@ -31,6 +31,10 @@ const app = express();
 //定义secret密钥
 const secretKey = 'xiaoyuan NO1 ^_^';
 
+//托管静态资源
+app.use(express.static('../Client/dist'));
+app.use('/index', express.static('../Client/dist'));
+
 //实现接口跨域请求
 app.use(cors());
 

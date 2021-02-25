@@ -28,7 +28,7 @@ apiRouter.get('/goodslist', (req, res) => {
 
     //查询数据库商品列表
 
-    connection.query('SELECT id,category,goods_title,goods_price,goods_sales,goods_img,shop_name,seller FROM goods;', (error, results, fields) => {
+    connection.query('SELECT id,category,goods_title,goods_price,goods_sales,goods_img,shop_name,seller,cmt_num FROM goods;', (error, results, fields) => {
         if (error) {
             res.data = {
                 status: 2,

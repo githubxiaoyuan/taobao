@@ -38,6 +38,11 @@ apiRouter.post('/login', (req, res) => {
     const sql = 'select username from account where username=?';
     connection.query(sql, [qData.username], (err, results) => {
         if (err) {
+            res.data = {
+                status: 4,
+                message: '数据库查询失败！'
+            };
+            res.send(res.data);
             connection.end();
             return console.log('数据库查询错误' + err.stack);
         }
@@ -46,6 +51,11 @@ apiRouter.post('/login', (req, res) => {
             const sql2 = 'select password from account where username=?';
             connection.query(sql2, [qData.username], (err, results) => {
                 if (err) {
+                    res.data = {
+                        status: 4,
+                        message: '数据库查询失败！'
+                    };
+                    res.send(res.data);
                     connection.end();
                     return console.log('数据库查询错误' + err.stack);
                 }
@@ -62,6 +72,11 @@ apiRouter.post('/login', (req, res) => {
                     const sql3 = 'update account set last_login=? where username=?';
                     connection.query(sql3, [loginTime, qData.username], (err, results) => {
                         if (err) {
+                            res.data = {
+                                status: 4,
+                                message: '数据库查询失败！'
+                            };
+                            res.send(res.data);
                             connection.end();
                             return console.log('数据库查询错误' + err.stack);
                         }
