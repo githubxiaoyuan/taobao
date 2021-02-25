@@ -138,6 +138,38 @@ function filterSubMenu() {
     }
 }
 
+
+
+//接受搜索的参数
+var keyword = decodeURI(location.search.substr(location.search.indexOf('=') + 1));
+if (keyword.trim()) {
+    $(".search-input").val(keyword.trim());
+} else {
+    $(".search-input").val('');
+}
+
+//  主页搜索功能
+goodsSearch();
+
+function goodsSearch() {
+    $(".search-btn").on("click", function() {
+        if ($(".search-input").val().trim()) {
+            return location.href = './goodslist.html?keyword=' + $(".search-input").val().trim();
+        } else {
+            return location.href = './goodslist.html';
+        }
+    });
+    $(".search-input").on("keyup", function(e) {
+        if (e.keyCode === 13) {
+            if ($(".search-input").val().trim()) {
+                return location.href = './goodslist.html?keyword=' + $(".search-input").val().trim();
+            } else {
+                return location.href = './goodslist.html';
+            }
+        }
+    });
+}
+
 //商品分页功能
 (function() {
 
@@ -154,6 +186,9 @@ function filterSubMenu() {
         $.ajax({
             url: '/api/goodslist',
             method: 'GET',
+            data: {
+                keyword: keyword
+            },
             success: function(res) {
                 if (res.status !== 1) {
                     return console.log(res.message);
@@ -178,6 +213,9 @@ function filterSubMenu() {
                 $.ajax({
                     url: '/api/goodslist',
                     method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
                     success: function(res) {
                         if (res.status !== 1) {
                             return console.log(res.message);
@@ -195,6 +233,9 @@ function filterSubMenu() {
                 $.ajax({
                     url: '/api/goodslist/sales',
                     method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
                     success: function(res) {
                         if (res.status !== 1) {
                             return console.log(res.message);
@@ -211,6 +252,9 @@ function filterSubMenu() {
                 $.ajax({
                     url: '/api/goodslist/credit',
                     method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
                     success: function(res) {
                         if (res.status !== 1) {
                             return console.log(res.message);
@@ -228,6 +272,9 @@ function filterSubMenu() {
                 $.ajax({
                     url: '/api/goodslist/price_asc',
                     method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
                     success: function(res) {
                         if (res.status !== 1) {
                             return console.log(res.message);
@@ -245,6 +292,9 @@ function filterSubMenu() {
                 $.ajax({
                     url: '/api/goodslist/price_desc',
                     method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
                     success: function(res) {
                         if (res.status !== 1) {
                             return console.log(res.message);
@@ -274,7 +324,8 @@ function filterSubMenu() {
                 method: 'GET',
                 data: {
                     price1: p1,
-                    price2: p2
+                    price2: p2,
+                    keyword: keyword
                 },
                 success: function(res) {
                     if (res.status !== 1) {
@@ -308,9 +359,9 @@ function filterSubMenu() {
                     var goodsArr = [];
                     var goodsStr = '';
                     for (var i = 0; i < data.length; i++) {
-                        if (data[i].goods_title.indexOf(data[i].category) !== -1) {
-                            var reg = new RegExp(data[i].category, 'gi');
-                            var goodsTitle = data[i].goods_title.replace(reg, '<span class="s-keyword">' + data[i].category + '</span>');
+                        if (data[i].goods_title.indexOf(keyword) !== -1) {
+                            var reg = new RegExp(keyword, 'gi');
+                            var goodsTitle = data[i].goods_title.replace(reg, '<span class="s-keyword">' + keyword + '</span>');
                         }
 
                         //商品模板

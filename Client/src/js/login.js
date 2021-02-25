@@ -24,7 +24,6 @@
 (function() {
     //获取跳转前的url
     var preURL = location.search.substr(location.search.indexOf('=') + 1);
-    console.log(preURL);
 
     //密码登录验证
 

@@ -26,6 +26,8 @@
   closeQRcode();
   // 渲染猜你喜欢
   renderLike();
+  // 主页搜索功能
+  goodsSearch();
 
 
 
@@ -37,6 +39,36 @@
 
 
   /* 各功能模块区 START */
+
+  //  主页搜索功能
+  function goodsSearch() {
+      var searchInput = document.querySelector(".search-input");
+      searchInput.oninput = function() {
+          if ($(this).val().trim()) {
+              $(this).prev().hide();
+              $(this).prev().prev().hide();
+          } else {
+              $(this).prev().show();
+              $(this).prev().prev().show();
+          }
+      }
+      $(".search-btn").on("click", function() {
+          if ($(".search-input").val().trim()) {
+              return location.href = './goodslist.html?keyword=' + $(".search-input").val().trim();
+          } else {
+              return location.href = './goodslist.html';
+          }
+      });
+      $(".search-input").on("keyup", function(e) {
+          if (e.keyCode === 13) {
+              if ($(".search-input").val().trim()) {
+                  return location.href = './goodslist.html?keyword=' + $(".search-input").val().trim();
+              } else {
+                  return location.href = './goodslist.html';
+              }
+          }
+      });
+  }
 
 
   // 控制页面元素状态
