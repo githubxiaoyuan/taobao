@@ -89,5 +89,5 @@ app.use((err, req, res, next) => {
 app.listen(80, () => {
     console.log('Taobao server running successful at http://127.0.0.1');
     //打开首页
-    // opn('http://127.0.0.1');
+    opn('http://127.0.0.1');
 });
