@@ -4,6 +4,8 @@
 const express = require('express');
 //导入mysql模块
 const mysql = require('mysql');
+//读取mysql配置文件
+const dbConfig = require('../module/database');
 
 const apiRouter = express.Router();
 
@@ -26,12 +28,7 @@ apiRouter.post('/addGoods', (req, res) => {
     let shopName = null;
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -220,12 +217,7 @@ apiRouter.post('/cartInfo', (req, res) => {
     const username = req.user.username;
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -271,12 +263,7 @@ apiRouter.post('/updateGoodsNum', (req, res) => {
     const goodsId = req.body.goodsId;
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -358,12 +345,7 @@ apiRouter.post('/deleteCartGoods', (req, res) => {
     const goodsId = req.body.goodsId;
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -444,12 +426,7 @@ apiRouter.post('/settlement', (req, res) => {
     const goodsNum = parseInt(req.body.goodsNum);
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -599,12 +576,7 @@ apiRouter.post('/clearGoods', (req, res) => {
 
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {

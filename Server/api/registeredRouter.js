@@ -6,6 +6,8 @@ const express = require('express');
 const moment = require('moment');
 //导入mysql模块
 const mysql = require('mysql');
+//读取mysql配置文件
+const dbConfig = require('../module/database');
 
 
 const apiRouter = express.Router();
@@ -14,12 +16,7 @@ const apiRouter = express.Router();
 apiRouter.post("/registered", (req, res) => {
     const qData = req.body;
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -131,12 +128,7 @@ apiRouter.post("/registered", (req, res) => {
 apiRouter.get("/registered/user", (req, res) => {
     const qData = req.query;
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -173,12 +165,7 @@ apiRouter.get("/registered/user", (req, res) => {
 apiRouter.get("/registered/email", (req, res) => {
     const qData = req.query;
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {

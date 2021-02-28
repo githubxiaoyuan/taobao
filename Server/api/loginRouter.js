@@ -8,6 +8,8 @@ const moment = require('moment');
 const mysql = require('mysql');
 //导入用于生成JWT字符串的包
 const jwt = require('jsonwebtoken');
+//读取mysql配置文件
+const dbConfig = require('../module/database');
 
 //定义secret密钥
 const secretKey = 'xiaoyuan NO1 ^_^';
@@ -18,12 +20,7 @@ const apiRouter = express.Router();
 apiRouter.post('/login', (req, res) => {
     const qData = req.body;
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {

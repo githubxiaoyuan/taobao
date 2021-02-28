@@ -4,19 +4,15 @@
 const express = require('express');
 //导入mysql模块
 const mysql = require('mysql');
+//读取mysql配置文件
+const dbConfig = require('../module/database');
 
 const apiRouter = express.Router();
 
 //返回商品详情数据
 apiRouter.get('/item', (req, res) => {
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao',
-        port: '3306'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
 
     connection.connect(err => {
         if (err) {
@@ -66,13 +62,7 @@ apiRouter.get('/item/goods_num', (req, res) => {
     const goodsId = req.query.goodsId;
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao',
-        port: '3306'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
 
     connection.connect(err => {
         if (err) {

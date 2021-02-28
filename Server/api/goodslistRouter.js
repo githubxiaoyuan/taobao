@@ -4,6 +4,9 @@ const express = require('express');
 const apiRouter = express.Router();
 //导入mysql模块
 const mysql = require('mysql');
+//读取mysql配置文件
+const dbConfig = require('../module/database');
+
 
 
 //商品列表数据请求接口
@@ -26,13 +29,9 @@ apiRouter.get('/goodslist', (req, res) => {
             addSql = 'goods_title like "%' + keyword + '%"';
         }
     }
+
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -40,7 +39,7 @@ apiRouter.get('/goodslist', (req, res) => {
                 message: '数据库连接错误'
             };
             res.send(res.data);
-            return console.log('数据库连接错误' + error);
+            return console.log('数据库连接错误' + err);
         }
     });
 
@@ -80,12 +79,7 @@ apiRouter.get('/goodslist/sales', (req, res) => {
     }
 
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -131,12 +125,7 @@ apiRouter.get('/goodslist/credit', (req, res) => {
         }
     }
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -182,12 +171,7 @@ apiRouter.get('/goodslist/price_asc', (req, res) => {
         }
     }
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -233,12 +217,7 @@ apiRouter.get('/goodslist/price_desc', (req, res) => {
         }
     }
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
@@ -285,12 +264,7 @@ apiRouter.get('/goodslist/price_range', (req, res) => {
     }
     const qData = req.query;
     //连接数据库
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'xiaoyuan',
-        database: 'taobao'
-    });
+    const connection = mysql.createConnection(dbConfig.mysqlConfig);
     connection.connect(function(err) {
         if (err) {
             res.data = {
